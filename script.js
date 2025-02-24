@@ -1,56 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Örnek veriler - gerçek verilerinizi buraya ekleyin
-    const sampleRides = [
-        {
-            id: "1",
-            name: "Ahmet Yılmaz",
-            email: "ahmet@example.com",
-            phone: "555-123-4567",
-            when: "Her Pazartesi 08:00",
-            where: "Kadıköy - Sabancı Üniversitesi",
-            note: "Maksimum 3 kişi alabilirim."
-        },
-        {
-            id: "2",
-            name: "Ayşe Demir",
-            email: "ayse@example.com",
-            phone: "555-987-6543",
-            when: "Salı ve Perşembe 17:30",
-            where: "Sabancı Üniversitesi - Üsküdar",
-            note: "Akşam dersleri sonrası dönüş"
-        },
-        {
-            id: "3",
-            name: "Mehmet Kaya",
-            email: "mehmet@example.com",
-            phone: "555-456-7890",
-            when: "Cuma 16:00",
-            where: "Sabancı Üniversitesi - Kadıköy",
-            note: "Hafta sonu dönüş"
-        }
-    ];
+    // Google Apps Script Web Uygulaması URL'si
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbwIdqd7lNuOJD0RDJPgjm_iAL-w7hI7FffGfOxJnvHmvsPN6TUvXQGV8X_5VuAlIU_Z/exec';
     
-    // Örnek verileri göster
-    displayRidesFromArray(sampleRides);
+    // Yükleniyor mesajını göster
+    document.getElementById('rides-list').innerHTML = '<div class="loading">Veriler yükleniyor...</div>';
     
-    // NOT: Gerçek uygulamada, aşağıdaki yorum satırlarını kaldırıp
-    // Google Sheets API'yi kullanabilirsiniz, ancak bu CORS sorunları yaratabilir
-    /*
-    const sheetId = '1w5qveHLXkq4Jmc7tR0GPWxqLDFCaiYAPP8IydIYworY';
-    const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-    
-    fetch(sheetUrl)
-        .then(response => response.text())
+    // Verileri çek
+    fetch(apiUrl)
+        .then(response => response.json())
         .then(data => {
-            const jsonData = JSON.parse(data.substring(47).slice(0, -2));
-            displayRides(jsonData.table);
+            if (data && data.rides && data.rides.length > 0) {
+                displayRidesFromArray(data.rides);
+            } else {
+                document.getElementById('rides-list').innerHTML = 
+                    '<div class="no-rides">Henüz hiç ilan bulunmuyor.</div>';
+            }
         })
         .catch(error => {
             console.error('Veri çekme hatası:', error);
+            
+            // Hata durumunda örnek verileri göster
+            const sampleRides = [
+                {
+                    id: "1",
+                    name: "Ahmet Yılmaz",
+                    email: "ahmet@example.com",
+                    phone: "555-123-4567",
+                    when: "Her Pazartesi 08:00",
+                    where: "Kadıköy - Sabancı Üniversitesi",
+                    note: "Maksimum 3 kişi alabilirim."
+                },
+                {
+                    id: "2",
+                    name: "Ayşe Demir",
+                    email: "ayse@example.com",
+                    phone: "555-987-6543",
+                    when: "Salı ve Perşembe 17:30",
+                    where: "Sabancı Üniversitesi - Üsküdar",
+                    note: "Akşam dersleri sonrası dönüş"
+                },
+                {
+                    id: "3",
+                    name: "Mehmet Kaya",
+                    email: "mehmet@example.com",
+                    phone: "555-456-7890",
+                    when: "Cuma 16:00",
+                    where: "Sabancı Üniversitesi - Kadıköy",
+                    note: "Hafta sonu dönüş"
+                }
+            ];
+            
+            // Hata mesajı göster ve örnek verileri yükle
             document.getElementById('rides-list').innerHTML = 
-                '<div class="error">Veriler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</div>';
+                '<div class="error">Gerçek veriler yüklenirken bir hata oluştu. Örnek veriler gösteriliyor.</div>';
+            
+            setTimeout(() => {
+                displayRidesFromArray(sampleRides);
+            }, 1000);
         });
-    */
 });
 
 function displayRidesFromArray(rides) {
