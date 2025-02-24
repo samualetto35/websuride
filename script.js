@@ -18,45 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Veri çekme hatası:', error);
-            
-            // Hata durumunda örnek verileri göster
-            const sampleRides = [
-                {
-                    id: "1",
-                    name: "Ahmet Yılmaz",
-                    email: "ahmet@example.com",
-                    phone: "555-123-4567",
-                    when: "Her Pazartesi 08:00",
-                    where: "Kadıköy - Sabancı Üniversitesi",
-                    note: "Maksimum 3 kişi alabilirim."
-                },
-                {
-                    id: "2",
-                    name: "Ayşe Demir",
-                    email: "ayse@example.com",
-                    phone: "555-987-6543",
-                    when: "Salı ve Perşembe 17:30",
-                    where: "Sabancı Üniversitesi - Üsküdar",
-                    note: "Akşam dersleri sonrası dönüş"
-                },
-                {
-                    id: "3",
-                    name: "Mehmet Kaya",
-                    email: "mehmet@example.com",
-                    phone: "555-456-7890",
-                    when: "Cuma 16:00",
-                    where: "Sabancı Üniversitesi - Kadıköy",
-                    note: "Hafta sonu dönüş"
-                }
-            ];
-            
-            // Hata mesajı göster ve örnek verileri yükle
             document.getElementById('rides-list').innerHTML = 
-                '<div class="error">Gerçek veriler yüklenirken bir hata oluştu. Örnek veriler gösteriliyor.</div>';
-            
-            setTimeout(() => {
-                displayRidesFromArray(sampleRides);
-            }, 1000);
+                '<div class="error">Veriler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</div>';
         });
 });
 
